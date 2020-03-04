@@ -1,0 +1,75 @@
+﻿@model ToDoList.Models.ApplicationUser
+
+@using Microsoft.AspNetCore.Identity
+
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container body-content">
+    <div class="row">
+        <br />
+        <div class="col-md-3">
+            <p>
+                <label asp-for="@Model.UserName">Name: </label>
+                <label asp-for="@Model.UserName">@Model.UserName</label>
+            </p>
+        </div>
+    </div>
+    <div class="row text-center">
+        <br />
+        <div class="col-md-6">
+            <ul style="list-style:none">
+                <li>
+                    <a asp-action="ShowAllSubscribers" asp-controller="Personal">
+                        <label>Subscribers</label>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="ShowAllSubscribers" asp-controller="Personal">
+                        <label>@ViewBag.Subskribers</label>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <ul style="list-style:none">
+                <li>
+                    <a asp-action="ShowAllSubscribtions" asp-controller="Personal">
+                        <label>Subscriptions</label>
+                    </a>
+                </li>
+                <li>
+                    <a asp-action="ShowAllSubscribtions" asp-controller="Personal">
+                        <label>@ViewBag.Subscriptions</label>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <hr />
+    <div class="row text-center">
+        <div class="col-md-4">
+            <ul style="list-style:none">
+                <li><a asp-action="Index" asp-controller="TaskToDoes">ToDo</a></li>
+                <li>@ViewBag.ToDo</li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <ul style="list-style:none">
+                <li><a asp-action="ShowAllTasks" asp-controller="TaskToDoes">AllTask</a></li>
+                <li>@ViewBag.AllTask</li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <ul style="list-style:none">
+                <li><a asp-action="Index" asp-controller="Archive">Archiv</a></li>
+                <li>@ViewBag.Archiv</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+

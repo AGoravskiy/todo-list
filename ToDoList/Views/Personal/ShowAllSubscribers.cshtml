@@ -1,0 +1,18 @@
+﻿@model List<ApplicationUser>
+
+@{
+    ViewData["Title"] = "ShowAllSubscribers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ul style="list-style:none">
+    @foreach (var item in Model)
+    {
+        <li>
+            <a asp-action="Index" asp-controller="TaskToDoes" asp-route-id="@item.Id">
+                @item.UserName
+            </a>
+        </li>
+    }
+</ul>
+

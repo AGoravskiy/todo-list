@@ -1,0 +1,25 @@
+﻿@model List<SubscribeModel>
+
+@{
+    ViewData["Title"] = "SearchResult";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<ul>
+    @foreach (var item in Model)
+    {
+    <li>
+        <span style="border-bottom:solid">@item.User.UserName</span>
+        <span> |</span>
+        @if (item.IsSub)
+        {
+            <a asp-controller="Personal" asp-action="Unsubscribe" asp-route-id="@item.User.Id">Unsubscribe</a>
+        }
+        else
+        {
+            <a asp-controller="Personal" asp-action="Subscribe" asp-route-id="@item.User.Id">Subscribe</a>
+        }
+    </li>
+    }
+</ul>
+

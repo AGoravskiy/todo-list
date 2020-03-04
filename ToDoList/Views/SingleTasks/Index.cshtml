@@ -1,0 +1,43 @@
+﻿@model IEnumerable<ToDoList.Models.SingleTask>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Label)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskToDo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <input type="checkbox" checked="@item.IsComplete" asp-action="IsComplete" asp-controller="TaskToDoes"/>
+            </td>
+            <td>                @Html.DisplayFor(modelItem => item.Label)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaskToDo.TaskToDoId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.SingleTaskId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.SingleTaskId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.SingleTaskId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

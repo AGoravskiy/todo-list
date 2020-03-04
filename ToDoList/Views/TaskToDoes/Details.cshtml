@@ -1,0 +1,59 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@model ToDoList.Models.TaskToDo
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h3>Details</h3>
+<div>
+
+</div>
+<div>
+    <h2>@Html.DisplayFor(model => model.Title)</h2>
+    <p>@Html.DisplayFor(model => model.Description)</p>
+    <p>@Html.DisplayNameFor(model => model.StartTime): @Html.DisplayFor(model => model.StartTime); 
+    @Html.DisplayNameFor(model => model.FinishTime): @Html.DisplayFor(model => model.FinishTime)</p>
+</div>
+<div>
+    <h4>Single tasks:</h4>
+    <ul style="list-style:none" title="Single tasks">
+        <li>
+            <a asp-controller="SingleTasks" asp-action="Create"> Add single task</a>
+        </li>
+        @foreach (var singleTask in Model.SingleTasks)
+        {
+        <li>
+            <a asp-action="IsComplete" asp-controller="SingleTasks" asp-route-id="@singleTask.SingleTaskId">
+                @Html.DisplayFor(modelItem => singleTask.IsComplete)
+                @Html.DisplayFor(modelItem => singleTask.Label)
+            </a>
+            <p>
+                <a asp-controller="SingleTasks" asp-action="Edit" asp-route-id="@singleTask.SingleTaskId">Edit</a> <span>|</span>
+                <a asp-controller="SingleTasks" asp-action="Details" asp-route-id="@singleTask.SingleTaskId">Details</a>
+                <span>|</span><a asp-controller="SingleTasks" asp-action="Delete" asp-route-id="@singleTask.SingleTaskId"> Delete </a>
+            </p>   
+        </li>
+        }
+    </ul>
+</div>
+<div>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.TaskToDoId" class="btn btn-primary btn-sm" style="width:80px">Edit</a>
+
+        <a asp-action="SendToArchive" asp-route-id="@Model.TaskToDoId" class="btn btn-primary btn-sm" style="width:80px">To archive</a>
+
+    }
+</div>
+<br />
+<div>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.TaskToDoId">Edit</a> <span>|</span>
+    }
+    <a asp-action="Index">Back to List</a>
+</div>

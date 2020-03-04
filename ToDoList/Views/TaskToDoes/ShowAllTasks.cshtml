@@ -1,0 +1,88 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model System.Collections.Generic.Dictionary<System.DateTime, System.Collections.Generic.List<ToDoList.Models.TaskToDo>>
+
+@{
+    ViewData["Title"] = "ShowAllTasks";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+<br />
+@if (SignInManager.IsSignedIn(User))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary btn-lg"> Create New</a>
+    </p>
+}
+
+@foreach (var item in Model)
+{
+    @if (item.Key.ToShortDateString() == DateTime.Now.ToShortDateString())
+    {
+    <h5 style="text-align:center"> Today </h5>
+    }
+    else
+    {
+        <h5 style="text-align:center"> @item.Key.ToShortDateString() </h5>
+    }
+        <div class="container">
+            <div class="row">
+                @foreach (var task in item.Value)
+                {
+                    <div class="col-md-4" style="padding-bottom: 5px; height: 300px; position:relative">
+                        <div style="border-bottom:groove; height: 100%">
+                            <div style="background-color:#F3F3F3; height: 100%">
+                                <a asp-action="SendToArchiveFromAllTasks" asp-controller="TaskToDoes" asp-route-id="@task.TaskToDoId">
+                                    <dl class="holiday" style="margin-bottom: 0">
+                                        <dt>
+                                            @Html.DisplayFor(modelItem => task.FinishTime)
+                                        </dt>
+                                        <dd>
+                                            @Html.DisplayFor(modelItem => task.Title)
+                                        </dd>
+                                    </dl>
+                                </a>
+                                <div class="pre-scrollable" style="height: 200px; overflow-x:hidden">
+                                    <div style="margin: 5px">
+                                        @Html.DisplayNameFor(modelItem => task.Description):
+                                        @Html.DisplayFor(modelItem => task.Description)
+                                    </div>
+                                    <div>
+                                        <ul>
+                                            <li style="list-style: none">
+                                                <a class="btn btn-secondary btn-sm" asp-action="Create" asp-controller="SingleTasks" asp-route-id="@task.TaskToDoId">
+                                                    Add SingleTask
+                                                </a>
+                                            </li>
+                                            @foreach (var singleTask in task.SingleTasks)
+                                            {
+                                                <li style="list-style: none">
+                                                    <a asp-action="IsCompleteTask" asp-controller="SingleTasks" asp-route-id="@singleTask.SingleTaskId">
+                                                        @Html.DisplayFor(modelItem => singleTask.IsComplete)
+                                                        @Html.DisplayFor(modelItem => singleTask.Label)
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+
+                                    </div>
+                                </div>
+
+                                <div style="margin-top: 3%; text-align:center">
+                                    @if (SignInManager.IsSignedIn(User))
+                                    {
+                                        <a asp-action="Edit" asp-route-id="@task.TaskToDoId" class="btn btn-primary btn-sm" style="width:80px">Edit</a>
+                                        <a asp-action="Details" asp-route-id="@task.TaskToDoId" class="btn btn-primary btn-sm" style="width:80px">Details</a>
+                                        <a asp-action="SendToArchive" asp-route-id="@task.TaskToDoId" class="btn btn-primary btn-sm" style="width:80px">To archive</a>
+                                    }
+                                </div>
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+}
+

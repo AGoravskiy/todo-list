@@ -1,0 +1,70 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model System.Collections.Generic.Dictionary<System.DateTime, System.Collections.Generic.List<ToDoList.Models.TaskToDo>>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+<br />
+@foreach (var item in Model)
+{
+    @if (item.Key.ToShortDateString() == DateTime.Now.ToShortDateString())
+    {
+        <h5 style="text-align:center"> Today </h5>
+    }
+    else
+    {
+        <h5 style="text-align:center"> @item.Key.ToShortDateString() </h5>
+    }
+    <div class="container">
+        <div class="row">
+            @foreach (var task in item.Value)
+            {
+                <div class="col-md-4" style="padding-bottom: 5px; height: 300px; position:relative">
+                    <div style="border-bottom:groove; height: 100%">
+                        <div style="background-color:#F3F3F3; height: 100%">
+                            <dl class="holiday" style="margin-bottom: 0">
+                                <dt>
+                                    @Html.DisplayFor(modelItem => task.FinishTime)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(modelItem => task.Title)
+                                </dd>
+                            </dl>
+                            <div class="pre-scrollable" style="height: 200px; overflow-x:hidden">
+                                <div style="margin: 5px">
+                                    @Html.DisplayNameFor(modelItem => task.Description):
+                                    @Html.DisplayFor(modelItem => task.Description)
+                                </div>
+                                <div>
+                                    <ul>
+                                        @foreach (var singleTask in task.SingleTasks)
+                                        {
+                                            <li style="list-style: none">
+                                                @Html.DisplayFor(modelItem => singleTask.IsComplete)
+                                                @Html.DisplayFor(modelItem => singleTask.Label)
+                                            </li>
+                                        }
+                                    </ul>
+
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 3%; text-align:center">
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <a asp-action="Details" asp-controller="TaskToDoes" asp-route-id="@task.TaskToDoId" class="btn btn-primary btn-sm" style="width:80px">Details</a>
+                                    <a asp-action="Delete" asp-controller="TaskToDoes" asp-route-id="@task.TaskToDoId" class="btn btn-primary btn-sm"> Delete </a>
+                                    <a asp-action="SendToTasks" asp-route-id="@task.TaskToDoId" class="btn btn-primary btn-sm" style="width:80px">To tasks</a>
+                                }
+                            </div>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
